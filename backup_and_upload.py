@@ -10,6 +10,7 @@ logger = logging.getLogger(__name__)
 
 # Database info:
 DATABASE_HOST = os.environ['DATABASE_HOST']
+DATABASE_NAME = os.environ['DATABASE_NAME']
 DATABASE_PWD = os.environ['DATABASE_PWD']
 DATABASE_USER = os.environ['DATABASE_USER']
 # Dropbox account info:
@@ -29,7 +30,7 @@ def run():
     # Dump DB data and compress the result
     logger.info('Dumping MySQL data...')
     mysql_dump_process = Popen(f'mysqldump -h{DATABASE_HOST} -u{DATABASE_USER} -p{DATABASE_PWD}'
-                               f' --all-databases --quick --single-transaction | gzip > {dump_path}',
+                               f' --databases {DATABASE_NAME} --quick --single-transaction | gzip > {dump_path}',
                                shell=True, stdout=PIPE)
     mysql_dump_process.wait()
     logger.info('MySQL data dump done!')
