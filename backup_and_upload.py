@@ -5,8 +5,12 @@ from datetime import datetime
 from subprocess import Popen, PIPE
 
 import dropbox
+from dotenv import load_dotenv
 
 logger = logging.getLogger(__name__)
+
+# Load .env file
+load_dotenv()
 
 # Database info:
 DATABASE_HOST = os.environ['DATABASE_HOST']
