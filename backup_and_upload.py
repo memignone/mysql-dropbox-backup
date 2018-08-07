@@ -31,8 +31,9 @@ def run():
     logger.info('Dumping MySQL data...')
     mysql_dump_process = Popen(f'mysqldump -h{DATABASE_HOST} -u{DATABASE_USER} -p{DATABASE_PWD}'
                                f' --databases {DATABASE_NAME} --quick --single-transaction | gzip > {dump_path}',
-                               shell=True, stdout=PIPE)
-    mysql_dump_process.wait()
+                               shell=True, stderr=PIPE, stdout=PIPE)
+    if mysql_dump_process.wait() != 0:
+        sys.exit(f'There were errors while dumping db.\n{mysql_dump_process.communicate()}')
     logger.info('MySQL data dump done!')
     # Connect to Dropbox
     dbx = dropbox.Dropbox(DROPBOX_TOKEN)
@@ -42,7 +43,7 @@ def run():
         # Build dropbox destination path
         dest_path = os.path.join(DROPBOX_FOLDER, dump_fn)
         try:
-            dbx.files_upload(source.read(), dest_path, mode=dropbox.files.WriteMode.overwrite)
+            dbx.files_upload(source.read(), dest_path, mode=dropbox.files.WriteMode.add)
         except dropbox.exceptions.ApiError as err:
             # This checks for the specific error where a user doesn't have enough
             # Dropbox space quota to upload this file.
