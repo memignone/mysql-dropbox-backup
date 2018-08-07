@@ -15,7 +15,7 @@ DATABASE_PWD = os.environ['DATABASE_PWD']
 DATABASE_USER = os.environ['DATABASE_USER']
 # Dropbox account info:
 DROPBOX_TOKEN = os.environ['DROPBOX_TOKEN']
-DROPBOX_FOLDER = os.environ['DROPBOX_FOLDER']
+DROPBOX_FOLDER = '/'
 # Local directory to work in:
 TEMP_FOLDER = '/tmp/elclub_backup/'
 
