@@ -59,6 +59,9 @@ def run():
             else:
                 logger.error(err)
                 sys.exit()
+    logger.info('Upload to dropbox done.')
+    # Remove db dump file
+    os.remove(dump_path)
 
 
 if __name__ == '__main__':
