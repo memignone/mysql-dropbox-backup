@@ -34,7 +34,7 @@ def run():
     # Dump DB data and compress the result
     logger.info('Dumping MySQL data...')
     mysql_dump_process = Popen(f'mysqldump -h{DATABASE_HOST} -u{DATABASE_USER} -p{DATABASE_PWD}'
-                               f' --databases {DATABASE_NAME} --quick --single-transaction | gzip > {dump_path}',
+                               f' \'{DATABASE_NAME}\' --single-transaction | gzip > {dump_path}',
                                shell=True, stderr=PIPE, stdout=PIPE)
     if mysql_dump_process.wait() != 0:
         sys.exit(f'There were errors while dumping db.\n{mysql_dump_process.communicate()}')
